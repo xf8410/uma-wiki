@@ -1,75 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 240 20% 4%;
+    --foreground: 240 10% 96%;
+    --card: 240 15% 8%;
+    --card-foreground: 240 10% 96%;
+    --popover: 240 15% 8%;
+    --popover-foreground: 240 10% 96%;
+    --primary: 330 75% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 10% 12%;
+    --secondary-foreground: 240 10% 96%;
+    --muted: 240 10% 15%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 330 75% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.625rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 240 10% 18%;
+    --input: 240 10% 18%;
+    --ring: 330 75% 60%;
+    --radius: 0.75rem;
+
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-elevated: #1a1a24;
+    --border-subtle: #2a2a3a;
+    --accent-pink: #e863a8;
+    --accent-purple: #8b5cf6;
+    --accent-orange: #f59e0b;
+    --text-primary: #f0f0f5;
+    --text-secondary: #a0a0b0;
+    --text-muted: #6b6b7b;
+    --grade-s: #ff6b6b;
+    --grade-a: #ff8c42;
+    --grade-b: #ffd93d;
+    --grade-c: #6bcb77;
+    --grade-d: #4d96ff;
+    --grade-e: #9b59b6;
+    --grade-f: #95a5a6;
+    --grade-g: #7f8c8d;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    font-family: "Noto Sans SC", "Noto Sans JP", "Poppins", system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .umamusume-gradient {
+    background: linear-gradient(135deg, rgba(232, 99, 168, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 20px rgba(232, 99, 168, 0.3);
+  }
+
+  .card-hover {
+    transition: transform 300ms ease-out, box-shadow 300ms ease-out;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(232, 99, 168, 0.3);
+  }
+
+  .skill-code {
+    font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--accent-orange);
+    word-break: break-all;
+  }
+}
+
+@layer utilities {
+  .grade-color-s { color: var(--grade-s); }
+  .grade-color-a { color: var(--grade-a); }
+  .grade-color-b { color: var(--grade-b); }
+  .grade-color-c { color: var(--grade-c); }
+  .grade-color-d { color: var(--grade-d); }
+  .grade-color-e { color: var(--grade-e); }
+  .grade-color-f { color: var(--grade-f); }
+  .grade-color-g { color: var(--grade-g); }
 }
