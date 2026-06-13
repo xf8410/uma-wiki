@@ -38,6 +38,49 @@ const APT_ALL = [
   { key: "oikomi", label: "追", gradeKey: "aptOikomi" as const },
 ];
 
+// 适应性等级数值映射
+const GRADE_VALUE: Record<string, number> = { G: 0, F: 1, E: 2, D: 3, C: 4, B: 5, A: 6 };
+const VALUE_GRADE = ["G", "F", "E", "D", "C", "B", "A"];
+
+// 获取有效适应性等级（祖辈红色因子往上传递）
+// 规则：总星数累计，每3星升1级，最高到A
+// 0星=G, 1-3星=F, 4-6星=E, 7-9星=D, 10-12星=C, 13-15星=B, 16-18星=A
+function getEffectiveGrade(
+  nodeId: string,
+  aptKey: string,
+  tree: Record<string, TreeNode>,
+  umaList: UmaEntry[],
+): string {
+  const node = tree[nodeId];
+  const uma = umaList.find((u) => u.cardId === node.cardId);
+  const aptCfg = APT_ALL.find((a) => a.key === aptKey);
+  if (!uma || !aptCfg) return "-";
+
+  const baseGrade = uma[aptCfg.gradeKey];
+  const baseValue = GRADE_VALUE[baseGrade];
+
+  // 收集所有后代的红色因子星级
+  let totalStars = 0;
+  function collectDescendantStars(nid: string) {
+    const n = tree[nid];
+    if (!n) return;
+    for (const childId of n.children) {
+      const child = tree[childId];
+      if (child) {
+        const red = child.redApts.find((r) => r.key === aptKey);
+        if (red) totalStars += red.stars;
+        collectDescendantStars(childId);
+      }
+    }
+  }
+  collectDescendantStars(nodeId);
+
+  // 粉因子规则（bilibili攻略）：1-4-7-10为分界点，最高+4级到A封顶
+  // 0星:+0, 1-3星:+1, 4-6星:+2, 7-9星:+3, 10+星:+4
+  const levelUp = Math.min(Math.ceil(totalStars / 3), 4); // 最高+4级
+  return VALUE_GRADE[Math.min(baseValue + levelUp, 6)]; // 6=A封顶
+}
+
 /* ═══════════════════════════════════════════
    五代系谱二叉树 (63 nodes)
    ═══════════════════════════════════════════ */
@@ -174,6 +217,7 @@ function NodeBox({
   onClickApt,
   onCycleAptStars,
   umaList,
+  tree,
   compact = false,
 }: {
   node: TreeNode;
@@ -181,6 +225,7 @@ function NodeBox({
   onClickApt: (aptKey: string) => void;
   onCycleAptStars: (aptKey: string) => void;
   umaList: UmaEntry[];
+  tree: Record<string, TreeNode>;
   compact?: boolean;
 }) {
   const uma = umaList.find((u) => u.cardId === node.cardId);
@@ -212,25 +257,28 @@ function NodeBox({
         <button onClick={onClickAvatar} className={`relative flex items-center justify-center overflow-hidden rounded-full border-2 transition-all hover:scale-110 flex-shrink-0 ${hasData ? "border-[var(--accent-pink)] bg-[var(--bg-primary)]" : "border-dashed border-[var(--border-subtle)] bg-[var(--bg-secondary)]"}`} style={{ width: 40, height: 40 }}>
           {node.icon ? <img src={node.icon} alt="" className="h-full w-full object-contain p-0.5" /> : <span className="text-base font-bold text-[var(--text-muted)]">+</span>}
         </button>
-        {/* 适应性网格 */}
+        {/* 适应性网格（显示有效等级 = 基础 + 祖辈红色因子加成） */}
         {uma && (
           <div className="flex flex-col gap-px">
             <div className="flex gap-px">
               {APT_ALL.slice(0, 2).map((apt) => {
                 const red = redMap[apt.key];
-                return <AptCell key={apt.key} label={apt.label} grade={uma[apt.gradeKey]} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
+                const grade = getEffectiveGrade(node.id, apt.key, tree, umaList);
+                return <AptCell key={apt.key} label={apt.label} grade={grade} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
               })}
             </div>
             <div className="flex gap-px">
               {APT_ALL.slice(2, 6).map((apt) => {
                 const red = redMap[apt.key];
-                return <AptCell key={apt.key} label={apt.label} grade={uma[apt.gradeKey]} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
+                const grade = getEffectiveGrade(node.id, apt.key, tree, umaList);
+                return <AptCell key={apt.key} label={apt.label} grade={grade} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
               })}
             </div>
             <div className="flex gap-px">
               {APT_ALL.slice(6, 10).map((apt) => {
                 const red = redMap[apt.key];
-                return <AptCell key={apt.key} label={apt.label} grade={uma[apt.gradeKey]} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
+                const grade = getEffectiveGrade(node.id, apt.key, tree, umaList);
+                return <AptCell key={apt.key} label={apt.label} grade={grade} isRed={!!red} onClick={() => onClickApt(apt.key)} />;
               })}
             </div>
           </div>
@@ -381,7 +429,7 @@ export default function CompatibilityCalc({ umaList }: { umaList: UmaEntry[] }) 
 
       {/* 育成 (第0代) */}
       <div className="flex justify-center">
-        <NodeBox node={tree["child"]} onClickAvatar={() => openPicker("child", "选择育成马娘")} onClickApt={(k) => toggleRedApt("child", k)} onCycleAptStars={(k) => cycleAptStars("child", k)} umaList={umaList} />
+        <NodeBox node={tree["child"]} onClickAvatar={() => openPicker("child", "选择育成马娘")} onClickApt={(k) => toggleRedApt("child", k)} onCycleAptStars={(k) => cycleAptStars("child", k)} umaList={umaList} tree={tree} />
       </div>
       {child.cardId && (
         <div className="flex justify-center">
@@ -395,20 +443,20 @@ export default function CompatibilityCalc({ umaList }: { umaList: UmaEntry[] }) 
 
       {/* 第1代: 父母 */}
       <div className="flex justify-center gap-12">
-        <NodeBox node={tree["p1"]} onClickAvatar={() => openPicker("p1", "选择父1")} onClickApt={(k) => toggleRedApt("p1", k)} onCycleAptStars={(k) => cycleAptStars("p1", k)} umaList={umaList} />
-        <NodeBox node={tree["p2"]} onClickAvatar={() => openPicker("p2", "选择父2")} onClickApt={(k) => toggleRedApt("p2", k)} onCycleAptStars={(k) => cycleAptStars("p2", k)} umaList={umaList} />
+        <NodeBox node={tree["p1"]} onClickAvatar={() => openPicker("p1", "选择父1")} onClickApt={(k) => toggleRedApt("p1", k)} onCycleAptStars={(k) => cycleAptStars("p1", k)} umaList={umaList} tree={tree} />
+        <NodeBox node={tree["p2"]} onClickAvatar={() => openPicker("p2", "选择父2")} onClickApt={(k) => toggleRedApt("p2", k)} onCycleAptStars={(k) => cycleAptStars("p2", k)} umaList={umaList} tree={tree} />
       </div>
       <LineV h={10} />
 
       {/* 第2代: 祖父母 */}
       <div className="flex justify-center gap-4">
         <div className="flex gap-2">
-          <NodeBox node={tree["p1f"]} onClickAvatar={() => openPicker("p1f", "选择祖父")} onClickApt={(k) => toggleRedApt("p1f", k)} onCycleAptStars={(k) => cycleAptStars("p1f", k)} umaList={umaList} />
-          <NodeBox node={tree["p1m"]} onClickAvatar={() => openPicker("p1m", "选择祖母")} onClickApt={(k) => toggleRedApt("p1m", k)} onCycleAptStars={(k) => cycleAptStars("p1m", k)} umaList={umaList} />
+          <NodeBox node={tree["p1f"]} onClickAvatar={() => openPicker("p1f", "选择祖父")} onClickApt={(k) => toggleRedApt("p1f", k)} onCycleAptStars={(k) => cycleAptStars("p1f", k)} umaList={umaList} tree={tree} />
+          <NodeBox node={tree["p1m"]} onClickAvatar={() => openPicker("p1m", "选择祖母")} onClickApt={(k) => toggleRedApt("p1m", k)} onCycleAptStars={(k) => cycleAptStars("p1m", k)} umaList={umaList} tree={tree} />
         </div>
         <div className="flex gap-2">
-          <NodeBox node={tree["p2f"]} onClickAvatar={() => openPicker("p2f", "选择祖父")} onClickApt={(k) => toggleRedApt("p2f", k)} onCycleAptStars={(k) => cycleAptStars("p2f", k)} umaList={umaList} />
-          <NodeBox node={tree["p2m"]} onClickAvatar={() => openPicker("p2m", "选择祖母")} onClickApt={(k) => toggleRedApt("p2m", k)} onCycleAptStars={(k) => cycleAptStars("p2m", k)} umaList={umaList} />
+          <NodeBox node={tree["p2f"]} onClickAvatar={() => openPicker("p2f", "选择祖父")} onClickApt={(k) => toggleRedApt("p2f", k)} onCycleAptStars={(k) => cycleAptStars("p2f", k)} umaList={umaList} tree={tree} />
+          <NodeBox node={tree["p2m"]} onClickAvatar={() => openPicker("p2m", "选择祖母")} onClickApt={(k) => toggleRedApt("p2m", k)} onCycleAptStars={(k) => cycleAptStars("p2m", k)} umaList={umaList} tree={tree} />
         </div>
       </div>
       <LineV h={8} />
@@ -416,7 +464,7 @@ export default function CompatibilityCalc({ umaList }: { umaList: UmaEntry[] }) 
       {/* 第3代: 曾祖父母 */}
       <div className="flex justify-center gap-1">
         {["p1ff", "p1fm", "p1mf", "p1mm", "p2ff", "p2fm", "p2mf", "p2mm"].map((id) => (
-          <NodeBox key={id} node={tree[id]} onClickAvatar={() => openPicker(id, `选择${tree[id].label}`)} onClickApt={(k) => toggleRedApt(id, k)} onCycleAptStars={(k) => cycleAptStars(id, k)} umaList={umaList} />
+          <NodeBox key={id} node={tree[id]} onClickAvatar={() => openPicker(id, `选择${tree[id].label}`)} onClickApt={(k) => toggleRedApt(id, k)} onCycleAptStars={(k) => cycleAptStars(id, k)} umaList={umaList} tree={tree} />
         ))}
       </div>
       <LineV h={6} />
@@ -424,7 +472,7 @@ export default function CompatibilityCalc({ umaList }: { umaList: UmaEntry[] }) 
       {/* 第4代: 高祖父母 */}
       <div className="flex justify-center gap-1 flex-wrap max-w-full">
         {Object.values(tree).filter((n) => n.depth === 4).map((n) => (
-          <NodeBox key={n.id} node={n} onClickAvatar={() => openPicker(n.id, `选择${n.label}`)} onClickApt={(k) => toggleRedApt(n.id, k)} onCycleAptStars={(k) => cycleAptStars(n.id, k)} umaList={umaList} compact />
+          <NodeBox key={n.id} node={n} onClickAvatar={() => openPicker(n.id, `选择${n.label}`)} onClickApt={(k) => toggleRedApt(n.id, k)} onCycleAptStars={(k) => cycleAptStars(n.id, k)} umaList={umaList} tree={tree} compact />
         ))}
       </div>
       <LineV h={4} />
@@ -432,7 +480,7 @@ export default function CompatibilityCalc({ umaList }: { umaList: UmaEntry[] }) 
       {/* 第5代: 天祖父母 */}
       <div className="flex justify-center gap-0.5 flex-wrap max-w-full">
         {Object.values(tree).filter((n) => n.depth === 5).map((n) => (
-          <NodeBox key={n.id} node={n} onClickAvatar={() => openPicker(n.id, `选择${n.label}`)} onClickApt={(k) => toggleRedApt(n.id, k)} onCycleAptStars={(k) => cycleAptStars(n.id, k)} umaList={umaList} compact />
+          <NodeBox key={n.id} node={n} onClickAvatar={() => openPicker(n.id, `选择${n.label}`)} onClickApt={(k) => toggleRedApt(n.id, k)} onCycleAptStars={(k) => cycleAptStars(n.id, k)} umaList={umaList} tree={tree} compact />
         ))}
       </div>
 

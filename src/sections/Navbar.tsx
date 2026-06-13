@@ -9,9 +9,14 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "马娘图鉴", to: "/" },
+    { label: "支援卡目录", to: "/support" },
+    { label: "比赛目录", to: "/races" },
     { label: "技能一览", to: "/skills" },
     { label: "相性计算器", to: "/compatibility" },
-    { label: "关于", to: "/#about" },
+    { label: "训练模拟器", to: "/training" },
+    { label: "AI实时决策", to: "/ai-decision" },
+    { label: "技能分数", to: "/skill-scores" },
+    { label: "常用网站", to: "/links" },
   ];
 
   return (

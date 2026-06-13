@@ -17,6 +17,13 @@ import ManhattanCafeBase from "./pages/ManhattanCafeBase";
 import UmaComingSoon from "./pages/UmaComingSoon";
 import SkillIndex from "./pages/SkillIndex";
 import CompatibilityIndex from "./pages/compatibility/CompatibilityIndex";
+import SupportIndex from "./pages/support/SupportIndex";
+import SupportDetail from "./pages/support/SupportDetail";
+import RaceIndex from "./pages/race/RaceIndex";
+import TrainingSimulator from "./pages/training/TrainingSimulator";
+import AIDecisionPage from "./pages/AIDecisionPage";
+import LinksPage from "./pages/LinksPage";
+import SkillScorePage from "./pages/SkillScorePage";
 
 export default function App() {
   return (
@@ -59,6 +66,25 @@ export default function App() {
 
         {/* Compatibility Calculator */}
         <Route path="/compatibility" element={<CompatibilityIndex />} />
+
+        {/* Support Card Directory */}
+        <Route path="/support" element={<SupportIndex />} />
+        <Route path="/support/:id" element={<SupportDetail />} />
+
+        {/* Race Directory */}
+        <Route path="/races" element={<RaceIndex />} />
+
+        {/* Training Simulator */}
+        <Route path="/training" element={<TrainingSimulator />} />
+
+        {/* AI Decision Assistant */}
+        <Route path="/ai-decision" element={<AIDecisionPage />} />
+
+        {/* Links Page */}
+        <Route path="/links" element={<LinksPage />} />
+
+        {/* Skill Score Page */}
+        <Route path="/skill-scores" element={<SkillScorePage />} />
       </Routes>
       <Toaster
         position="bottom-center"
