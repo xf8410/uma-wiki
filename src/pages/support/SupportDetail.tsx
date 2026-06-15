@@ -65,9 +65,13 @@ export default function SupportDetail() {
             {/* Left: Image */}
             <div className="md:w-72 flex-shrink-0 bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-secondary)] p-4 flex items-center justify-center">
               <img
-                src={`/support/${card.id}.png`}
+                src={`${import.meta.env.BASE_URL}support/${card.id}.png`}
                 alt={card.name}
                 className="h-auto w-full max-h-96 object-contain rounded-xl"
+                loading="eager"
+                decoding="async"
+                width="384"
+                height="512"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>

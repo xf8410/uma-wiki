@@ -142,10 +142,10 @@ export default function MejiroPeak() {
               <div className="relative">
                 <div className="absolute inset-0 rounded-3xl blur-3xl" style={{ background: "radial-gradient(circle, rgba(20,184,166,0.25) 0%, transparent 70%)" }} />
                 <div className="relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
-                  <img src="/images/mejiro-peak-victory.png" alt="目白高峰 - 决胜服" className="h-auto w-72 object-contain sm:w-80 lg:w-96" />
+                  <img src={import.meta.env.BASE_URL + "/images/mejiro-peak-victory.png"} alt="目白高峰 - 决胜服" className="h-auto w-72 object-contain sm:w-80 lg:w-96" />
                 </div>
                 <div className="absolute -bottom-4 -right-4 overflow-hidden rounded-xl border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-xl">
-                  <img src="/images/mejiro-peak-icon.png" alt="目白高峰头像" className="h-16 w-16 object-cover sm:h-20 sm:w-20" />
+                  <img src={import.meta.env.BASE_URL + "/images/mejiro-peak-icon.png"} alt="目白高峰头像" className="h-16 w-16 object-cover sm:h-20 sm:w-20" />
                 </div>
               </div>
             </motion.div>
@@ -192,7 +192,7 @@ export default function MejiroPeak() {
           <div className="flex flex-col gap-6 md:flex-row">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex flex-shrink-0 flex-col items-center gap-3">
               <div className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-1">
-                <img src={uniqueSkill.icon} alt={uniqueSkill.nameJP} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+                <img src={import.meta.env.BASE_URL + uniqueSkill.icon.slice(1)} alt={uniqueSkill.nameJP} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
               </div>
               <Badge variant="outline" className="border-yellow-500/30 bg-yellow-500/10 text-yellow-300">{uniqueSkill.iconColor}</Badge>
             </motion.div>
@@ -259,7 +259,7 @@ export default function MejiroPeak() {
           <div className="flex flex-col gap-6 md:flex-row">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex flex-shrink-0 flex-col items-center gap-3">
               <div className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-1">
-                <img src={inheritSkill.icon} alt={`继承·${inheritSkill.nameJP}`} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+                <img src={import.meta.env.BASE_URL + inheritSkill.icon.slice(1)} alt={`继承·${inheritSkill.nameJP}`} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
               </div>
               <Badge variant="outline" className="border-yellow-500/30 bg-yellow-500/10 text-yellow-300">{inheritSkill.iconColor}</Badge>
             </motion.div>
@@ -339,7 +339,7 @@ export default function MejiroPeak() {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 0.6 }} className="fixed bottom-6 left-6 z-50">
         <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="group relative">
           <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-xl transition-all group-hover:border-[#14b8a6] group-hover:shadow-teal-500/20">
-            <img src="/images/mejiro-peak-chibi.png" alt="目白高峰 小人" className="h-full w-full object-contain" />
+            <img src={import.meta.env.BASE_URL + "/images/mejiro-peak-chibi.png"} alt="目白高峰 小人" className="h-full w-full object-contain" />
           </div>
           <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[var(--bg-secondary)] px-2 py-1 text-[10px] text-[var(--text-muted)] opacity-0 transition-opacity group-hover:opacity-100 border border-[var(--border-subtle)]">
             目白高峰 · 小人

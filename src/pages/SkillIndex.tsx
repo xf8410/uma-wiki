@@ -678,7 +678,7 @@ function InherentCard({ skill }: { skill: InherentSkill }) {
         {/* Icon */}
         <div className="relative flex-shrink-0 self-center">
           <div className={`overflow-hidden rounded-lg border ${borderClass} bg-[var(--bg-secondary)] p-0.5`}>
-            <img src={skill.icon} alt={skill.nameJP} className="h-10 w-10 object-contain" />
+            <img src={import.meta.env.BASE_URL + skill.icon.slice(1)} alt={skill.nameJP} className="h-10 w-10 object-contain" />
           </div>
         </div>
 
@@ -755,7 +755,7 @@ function CompactRow({ skill, isUpper }: { skill: Skill; isUpper: boolean }) {
         {/* Icon */}
         <div className="relative flex-shrink-0 self-center">
           <div className={`overflow-hidden rounded-lg border ${borderClass} bg-[var(--bg-secondary)] p-0.5`}>
-            <img src={skill.icon} alt={skill.nameJP} className="h-10 w-10 object-contain" />
+            <img src={import.meta.env.BASE_URL + skill.icon.slice(1)} alt={skill.nameJP} className="h-10 w-10 object-contain" />
           </div>
           {isUpper !== undefined && (
             <div className={`absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-bold ${isUpper ? "bg-yellow-500/80 text-black" : "bg-gray-500/80 text-white"}`}>
@@ -828,7 +828,7 @@ function LegendCard({ skill }: { skill: Skill }) {
       <button onClick={() => setExpanded(!expanded)} className="flex w-full items-start gap-3 p-3 text-left hover:bg-[var(--bg-elevated)]">
         <div className="relative flex-shrink-0 self-center">
           <div className="overflow-hidden rounded-lg border border-yellow-500/60 bg-[var(--bg-secondary)] p-0.5">
-            <img src={skill.icon} alt={skill.nameJP} className="h-10 w-10 object-contain" />
+            <img src={import.meta.env.BASE_URL + skill.icon.slice(1)} alt={skill.nameJP} className="h-10 w-10 object-contain" />
           </div>
         </div>
         <div className="min-w-0 flex-1 self-center">
@@ -889,7 +889,7 @@ function NonInheritCard({ skill }: { skill: NonInheritSkill }) {
       <button onClick={() => setExpanded(!expanded)} className="flex w-full items-start gap-3 p-3 text-left hover:bg-[var(--bg-elevated)]">
         <div className="relative flex-shrink-0 self-center">
           <div className="overflow-hidden rounded-lg border border-red-500/60 bg-[var(--bg-secondary)] p-0.5">
-            <img src={skill.icon} alt={skill.nameJP} className="h-10 w-10 object-contain" />
+            <img src={import.meta.env.BASE_URL + skill.icon.slice(1)} alt={skill.nameJP} className="h-10 w-10 object-contain" />
           </div>
           <div className="absolute -top-1 -left-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500/80">
             <Ban className="h-3 w-3 text-white" />

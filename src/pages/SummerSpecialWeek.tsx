@@ -191,11 +191,11 @@ export default function SummerSpecialWeek() {
                 {/* Glow */}
                 <div className="absolute inset-0 rounded-3xl blur-3xl" style={{ background: "radial-gradient(circle, rgba(255,140,66,0.25) 0%, transparent 70%)" }} />
                 <div className="relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
-                  <img src="/images/summer-sw-victory.png" alt="泳装特别周 - 决胜服" className="h-auto w-72 object-contain sm:w-80 lg:w-96" />
+                  <img src={import.meta.env.BASE_URL + "/images/summer-sw-victory.png"} alt="泳装特别周 - 决胜服" className="h-auto w-72 object-contain sm:w-80 lg:w-96" />
                 </div>
                 {/* Icon Badge */}
                 <div className="absolute -bottom-4 -right-4 overflow-hidden rounded-xl border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-xl">
-                  <img src="/images/summer-sw-icon.png" alt="泳装特别周头像" className="h-16 w-16 object-cover sm:h-20 sm:w-20" />
+                  <img src={import.meta.env.BASE_URL + "/images/summer-sw-icon.png"} alt="泳装特别周头像" className="h-16 w-16 object-cover sm:h-20 sm:w-20" />
                 </div>
               </div>
             </motion.div>
@@ -271,7 +271,7 @@ export default function SummerSpecialWeek() {
             {/* Skill Icon */}
             <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex flex-shrink-0 flex-col items-center gap-3">
               <div className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-1">
-                <img src="/images/summer-sw-skill-unique.png" alt={uniqueSkill.nameJP} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+                <img src={import.meta.env.BASE_URL + "/images/summer-sw-skill-unique.png"} alt={uniqueSkill.nameJP} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
               </div>
               <Badge variant="outline" className="border-blue-500/30 bg-blue-500/10 text-blue-300">{uniqueSkill.iconColor}</Badge>
             </motion.div>
@@ -349,7 +349,7 @@ export default function SummerSpecialWeek() {
             {/* Skill Icon */}
             <motion.div initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex flex-shrink-0 flex-col items-center gap-3">
               <div className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-1">
-                <img src="/images/summer-sw-skill-inherit.png" alt={`继承·${inheritSkill.nameJP}`} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+                <img src={import.meta.env.BASE_URL + "/images/summer-sw-skill-inherit.png"} alt={`继承·${inheritSkill.nameJP}`} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
               </div>
               <Badge variant="outline" className="border-blue-500/30 bg-blue-500/10 text-blue-300">{inheritSkill.iconColor}</Badge>
             </motion.div>
@@ -452,7 +452,7 @@ export default function SummerSpecialWeek() {
           className="group relative"
         >
           <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-xl transition-all group-hover:border-[var(--accent-orange)] group-hover:shadow-orange-500/20">
-            <img src="/images/summer-sw-chibi.png" alt="泳装特别周 小人" className="h-full w-full object-contain" />
+            <img src={import.meta.env.BASE_URL + "/images/summer-sw-chibi.png"} alt="泳装特别周 小人" className="h-full w-full object-contain" />
           </div>
           <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[var(--bg-secondary)] px-2 py-1 text-[10px] text-[var(--text-muted)] opacity-0 transition-opacity group-hover:opacity-100 border border-[var(--border-subtle)]">
             泳装特别周 · 小人

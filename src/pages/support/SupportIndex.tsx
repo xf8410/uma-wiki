@@ -134,12 +134,23 @@ export default function SupportIndex() {
               {/* Card Image */}
               <div className="aspect-[3/4] w-full bg-gradient-to-b from-[var(--bg-primary)] to-[var(--bg-secondary)] flex items-center justify-center relative">
                 <img
-                  src={`/support/${card.id}.png`}
+                  src={`${import.meta.env.BASE_URL}support/${card.id}.png`}
                   alt={card.name}
                   className="h-full w-full object-contain p-1"
                   loading="lazy"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                  decoding="async"
+                  width="288"
+                  height="384"
+                  onError={(e) => {
+                    const el = e.target as HTMLImageElement;
+                    el.style.display = 'none';
+                    const placeholder = el.parentElement?.querySelector('.img-placeholder') as HTMLElement;
+                    if (placeholder) placeholder.style.display = 'flex';
+                  }}
                 />
+                <div className="img-placeholder absolute inset-0 hidden items-center justify-center text-[var(--text-muted)] text-xs">
+                  <span>{card.name.slice(0,2)}</span>
+                </div>
                 {/* Rarity badge on image */}
                 <div className="absolute top-1.5 left-1.5">
                   <span className={`rounded-full border px-1.5 py-px text-[9px] font-bold ${

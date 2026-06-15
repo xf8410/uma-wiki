@@ -69,7 +69,7 @@ export default function InheritSkill() {
           >
             <div className="overflow-hidden rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-primary)] p-1">
               <img
-                src="/images/skill-inherit-shooting-star.png"
+                src={import.meta.env.BASE_URL + "/images/skill-inherit-shooting-star.png"}
                 alt="シューティングスター 继承"
                 className="h-24 w-24 object-contain sm:h-28 sm:w-28"
               />

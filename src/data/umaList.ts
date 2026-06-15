@@ -271,4 +271,8 @@ export const umaList: UmaEntry[] = [
   { cardId: "113501", nameCN: "黄金旅程", nameJP: "ステイゴールド", icon: "/images/uma-icons/chara_113501.png", path: "/uma/黄金旅程_113501", aptTurf: "A", aptDirt: "G", aptShort: "G", aptMile: "G", aptMiddle: "A", aptLong: "A", aptNige: "G", aptSenko: "B", aptSashi: "A", aptOikomi: "C" },
   { cardId: "113701", nameCN: "神业", nameJP: "キセキ", icon: "/images/uma-icons/chara_113701.png", path: "/uma/神业_113701", aptTurf: "A", aptDirt: "G", aptShort: "G", aptMile: "C", aptMiddle: "A", aptLong: "A", aptNige: "A", aptSenko: "B", aptSashi: "A", aptOikomi: "E" },
   { cardId: "114301", nameCN: "比萨胜驹", nameJP: "ヴィクトワールピサ", icon: "/images/uma-icons/chara_114301.png", path: "/uma/比萨胜驹_114301", aptTurf: "A", aptDirt: "A", aptShort: "G", aptMile: "B", aptMiddle: "A", aptLong: "B", aptNige: "G", aptSenko: "A", aptSashi: "A", aptOikomi: "E" },
-];
+].map((u) => ({
+  ...u,
+  icon: import.meta.env.BASE_URL + u.icon.slice(1),
+  victoryIcon: u.victoryIcon ? import.meta.env.BASE_URL + u.victoryIcon.slice(1) : undefined,
+}));

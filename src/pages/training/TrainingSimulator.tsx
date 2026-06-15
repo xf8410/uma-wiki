@@ -299,7 +299,7 @@ export default function TrainingSimulator() {
                   {selCards.map((card, idx) => (
                     <motion.div key={card.id} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="relative">
                       <div className="aspect-[3/4] rounded-xl border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-primary)]">
-                        <img src={`/support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" />
+                        <img src={`${import.meta.env.BASE_URL}support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" />
                         <div className="absolute top-1 left-1 h-5 w-5 rounded-full bg-black/60 flex items-center justify-center"><span className="text-[10px] text-white font-bold">{idx + 1}</span></div>
                         <div className="absolute top-1 right-1"><span className={`text-[8px] font-bold px-1 py-px rounded ${card.rarity === "SSR" ? "bg-yellow-500/20 text-yellow-400" : "bg-purple-500/20 text-purple-400"}`}>{card.rarity}</span></div>
                         <div className="absolute bottom-1 right-1"><span className={`text-[8px] font-medium px-1 py-px rounded border ${TYPE_COLORS[card.type]}`}>{card.type}</span></div>
@@ -336,7 +336,7 @@ export default function TrainingSimulator() {
                           const isMax = selCards.length >= 6 && !isSel;
                           return (
                             <button key={card.id} onClick={() => !isMax && tc(card)} disabled={isMax} className={`relative rounded-lg border overflow-hidden transition-all ${isSel ? "border-[var(--accent-pink)] ring-2 ring-[var(--accent-pink)]/30" : isMax ? "border-[var(--border-subtle)] opacity-40" : "border-[var(--border-subtle)] hover:border-[var(--accent-pink)]/50"}`}>
-                              <div className="aspect-[3/4] bg-[var(--bg-primary)]"><img src={`/support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" /></div>
+                              <div className="aspect-[3/4] bg-[var(--bg-primary)]"><img src={`${import.meta.env.BASE_URL}support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" /></div>
                               {isSel && <div className="absolute inset-0 bg-[var(--accent-pink)]/20 flex items-center justify-center"><div className="h-6 w-6 rounded-full bg-[var(--accent-pink)] flex items-center justify-center"><Check className="h-4 w-4 text-white" /></div></div>}
                               <div className="absolute top-0.5 left-0.5"><span className={`text-[7px] font-bold px-1 py-px rounded ${card.rarity === "SSR" ? "bg-yellow-500/20 text-yellow-400" : "bg-purple-500/20 text-purple-400"}`}>{card.rarity}</span></div>
                             </button>
@@ -429,7 +429,7 @@ export default function TrainingSimulator() {
             <div className="flex gap-3">
               {friendCards.map((fc) => (
                 <button key={fc.id} onClick={() => setSelFriend(selFriend === fc.id ? null : fc.id)} className={`rounded-xl border p-3 transition-all ${selFriend === fc.id ? "border-pink-500 ring-2 ring-pink-500/30 bg-pink-500/10" : "border-[var(--border-subtle)] bg-[var(--bg-primary)] hover:border-pink-500/50"}`}>
-                  <div className="aspect-[3/4] w-24 rounded-lg overflow-hidden bg-[var(--bg-primary)]"><img src={`/support/${fc.id}.png`} alt={fc.name} className="h-full w-full object-contain" loading="lazy" /></div>
+                  <div className="aspect-[3/4] w-24 rounded-lg overflow-hidden bg-[var(--bg-primary)]"><img src={`${import.meta.env.BASE_URL}support/${fc.id}.png`} alt={fc.name} className="h-full w-full object-contain" loading="lazy" /></div>
                   <p className="mt-2 text-xs text-[var(--text-primary)] text-center">{fc.name}</p>
                   {selFriend === fc.id && <p className="text-[10px] text-pink-400 text-center mt-1">已选择 (+5pt)</p>}
                 </button>
@@ -517,7 +517,7 @@ export default function TrainingSimulator() {
                 {selCards.map((card, idx) => (
                   <div key={card.id}>
                     <div className="aspect-[3/4] rounded-lg border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-primary)]">
-                      <img src={`/support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" />
+                      <img src={`${import.meta.env.BASE_URL}support/${card.id}.png`} alt={card.name} className="h-full w-full object-contain" loading="lazy" />
                     </div>
                     <div className="mt-1"><div className="h-1 rounded-full bg-[var(--bg-secondary)] overflow-hidden"><div className="h-full rounded-full bg-pink-400 transition-all" style={{ width: `${ts.cardBond[idx] || 0}%` }} /></div><p className="text-[8px] text-[var(--text-muted)] text-center mt-0.5">绊:{ts.cardBond[idx] || 0}</p></div>
                     {selScenario.id === "aoharu" && aoharuE[idx] && (

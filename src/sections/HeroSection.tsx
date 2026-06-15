@@ -132,7 +132,7 @@ export default function HeroSection() {
               />
               <div className="relative overflow-hidden rounded-2xl border border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
                 <img
-                  src="/images/special-week-victory.png"
+                  src={import.meta.env.BASE_URL + "/images/special-week-victory.png"}
                   alt="特别周 - 决胜服"
                   className="h-auto w-72 object-contain sm:w-80 lg:w-96"
                 />
@@ -140,7 +140,7 @@ export default function HeroSection() {
               {/* Icon Badge */}
               <div className="absolute -bottom-4 -right-4 overflow-hidden rounded-xl border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-xl">
                 <img
-                  src="/images/special-week-icon.png"
+                  src={import.meta.env.BASE_URL + "/images/special-week-icon.png"}
                   alt="特别周头像"
                   className="h-16 w-16 object-cover sm:h-20 sm:w-20"
                 />
