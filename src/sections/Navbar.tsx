@@ -15,6 +15,7 @@ export default function Navbar() {
     { label: "相性计算器", to: "/compatibility" },
     { label: "训练模拟器", to: "/training" },
     { label: "AI实时决策", to: "/ai-decision" },
+    { label: "训练记录", to: "/training-log" },
     { label: "技能分数", to: "/skill-scores" },
     { label: "常用网站", to: "/links" },
   ];

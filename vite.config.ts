@@ -10,6 +10,7 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 const SPA_ROUTES = [
   "ai-decision",
   "training",
+  "training-log",
   "skills",
   "skill-scores",
   "support",
