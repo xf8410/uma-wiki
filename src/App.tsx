@@ -22,6 +22,7 @@ import SupportDetail from "./pages/support/SupportDetail";
 import RaceIndex from "./pages/race/RaceIndex";
 import TrainingSimulator from "./pages/training/TrainingSimulator";
 import TrainingLogPage from "./pages/training/TrainingLogPage";
+import DataCollectorPage from "./pages/training/DataCollectorPage";
 import AIDecisionPage from "./pages/AIDecisionPage";
 import LinksPage from "./pages/LinksPage";
 import SkillScorePage from "./pages/SkillScorePage";
@@ -83,6 +84,9 @@ export default function App() {
 
         {/* Training Log */}
         <Route path="/training-log" element={<TrainingLogPage />} />
+
+        {/* Data Collector */}
+        <Route path="/data-collector" element={<DataCollectorPage />} />
 
         {/* Links Page */}
         <Route path="/links" element={<LinksPage />} />

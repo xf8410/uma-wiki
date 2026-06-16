@@ -11,6 +11,7 @@ const SPA_ROUTES = [
   "ai-decision",
   "training",
   "training-log",
+  "data-collector",
   "skills",
   "skill-scores",
   "support",
