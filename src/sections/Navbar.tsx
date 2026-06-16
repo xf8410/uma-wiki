@@ -17,6 +17,7 @@ export default function Navbar() {
     { label: "AI实时决策", to: "/ai-decision" },
     { label: "训练记录", to: "/training-log" },
     { label: "数据收集", to: "/data-collector" },
+    { label: "仪表盘", to: "/dashboard" },
     { label: "技能分数", to: "/skill-scores" },
     { label: "常用网站", to: "/links" },
   ];

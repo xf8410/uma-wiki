@@ -23,6 +23,7 @@ import RaceIndex from "./pages/race/RaceIndex";
 import TrainingSimulator from "./pages/training/TrainingSimulator";
 import TrainingLogPage from "./pages/training/TrainingLogPage";
 import DataCollectorPage from "./pages/training/DataCollectorPage";
+import DataDashboard from "./pages/training/DataDashboard";
 import AIDecisionPage from "./pages/AIDecisionPage";
 import LinksPage from "./pages/LinksPage";
 import SkillScorePage from "./pages/SkillScorePage";
@@ -87,6 +88,9 @@ export default function App() {
 
         {/* Data Collector */}
         <Route path="/data-collector" element={<DataCollectorPage />} />
+
+        {/* Data Dashboard */}
+        <Route path="/dashboard" element={<DataDashboard />} />
 
         {/* Links Page */}
         <Route path="/links" element={<LinksPage />} />

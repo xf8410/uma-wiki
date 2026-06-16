@@ -12,6 +12,7 @@ const SPA_ROUTES = [
   "training",
   "training-log",
   "data-collector",
+  "dashboard",
   "skills",
   "skill-scores",
   "support",
