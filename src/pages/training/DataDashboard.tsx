@@ -11,7 +11,7 @@
  * Phase A: 后续加截图OCR自动填数
  */
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router";
 import { umaList } from "@/data/umaList";
 import { getAllBaseStats, getStarStats, calculateExpectedStart, type ParentFactor } from "@/data/umaBaseStats";
@@ -62,6 +62,11 @@ export default function DataDashboard() {
   const [log, setLog] = useState<NurtureLog | null>(null);
   const [lastAction, setLastAction] = useState("");
   const [advice, setAdvice] = useState<string[]>([]);
+
+  // OCR截图
+  const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [ocrText, setOcrText] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const allStats = getAllBaseStats();
 
@@ -203,6 +208,58 @@ export default function DataDashboard() {
   // 快捷调整属性
   const adjustStat = (key: keyof FiveStats, delta: number) => {
     setState(prev => ({ ...prev, [key]: Math.max(0, (prev[key] as number) + delta) }));
+  };
+
+  // 处理截图上传
+  const handleScreenshotUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      setScreenshot(dataUrl);
+      // 尝试简单OCR：用canvas提取像素分析
+      performClientOCR(dataUrl);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // 客户端简单OCR（颜色阈值法识别数字区域）
+  const performClientOCR = (dataUrl: string) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      // 赛马娘训练界面数字通常是白色/亮色在深色背景上
+      // 提取右侧属性区域的像素（约60%-90%宽度，20%-80%高度）
+      const imageData = ctx.getImageData(
+        Math.floor(img.width * 0.6),
+        Math.floor(img.height * 0.15),
+        Math.floor(img.width * 0.35),
+        Math.floor(img.height * 0.7)
+      );
+
+      // 统计白色像素密度（简单判断是否有数字区域）
+      let whitePixels = 0;
+      const pixels = imageData.data;
+      for (let i = 0; i < pixels.length; i += 4) {
+        const brightness = (pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3;
+        if (brightness > 200) whitePixels++;
+      }
+      const density = whitePixels / (pixels.length / 4);
+
+      if (density > 0.05) {
+        setOcrText("检测到属性区域，请对照图片输入数值");
+      } else {
+        setOcrText("未检测到清晰的属性区域，请确保截图包含五维数值");
+      }
+    };
+    img.src = dataUrl;
   };
 
   // ========== 设置界面 ==========
@@ -450,6 +507,54 @@ export default function DataDashboard() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* 截图OCR区域 */}
+        <div className="mt-3 border-t border-gray-800 pt-3">
+          <div className="flex items-center gap-3">
+            <label className="cursor-pointer rounded border border-cyan-500/30 bg-cyan-500/5 px-3 py-1 text-xs text-cyan-400 hover:bg-cyan-500/10 flex items-center gap-1">
+              📷 上传截图
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleScreenshotUpload}
+              />
+            </label>
+            {screenshot && (
+              <button onClick={() => { setScreenshot(null); setOcrText(""); }}
+                className="rounded border border-red-500/30 px-2 py-1 text-[10px] text-red-400">
+                清除
+              </button>
+            )}
+            {ocrText && <span className="text-[10px] text-gray-400">{ocrText}</span>}
+          </div>
+
+          {screenshot && (
+            <div className="mt-2 flex gap-3">
+              <div className="w-48 border border-gray-700 rounded overflow-hidden">
+                <img src={screenshot} alt="截图" className="w-full" />
+              </div>
+              <div className="flex-1">
+                <p className="text-[10px] text-cyan-400 mb-1">对照截图快速输入：</p>
+                <div className="flex gap-2 flex-wrap">
+                  {TRAIN_TYPES.map(tt => (
+                    <button key={tt.key}
+                      onClick={() => {
+                        // 自动+15（估算训练增益）
+                        setState(p => ({ ...p, [tt.key]: (p[tt.key as keyof GameState] as number) + 15, vital: p.vital - (tt.key === "wit" ? 10 : 21) }));
+                      }}
+                      className="rounded px-2 py-1 text-[10px] border"
+                      style={{ borderColor: tt.border, color: tt.color }}>
+                      {tt.short}+15
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 底部快捷调整 */}
